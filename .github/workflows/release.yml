@@ -2,7 +2,7 @@ name: "Release"
 on: [push, pull_request] 
 
 jobs:
-  check_pr:
+  release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
