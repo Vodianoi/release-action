@@ -85,11 +85,14 @@ export class Action {
             //check releaseNotesResponse is not undefined
             if(releaseNotesResponse !== undefined) {
                 core.debug(`releaseNotesResponse: ${JSON.stringify(releaseNotesResponse)}`);
+                core.warning(`releaseNotesResponse: ${JSON.stringify(releaseNotesResponse)}`);
+                
                 releaseNotes = releaseNotesResponse.data.body;
             }
             else
             {
                 core.debug(`releaseNotesResponse is undefined`);
+                core.warning(`releaseNotesResponse is undefined`);
             }
           } catch (error) {
             console.error(error);
