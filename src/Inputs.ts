@@ -19,6 +19,7 @@ export interface Inputs {
     readonly owner: string
     readonly removeArtifacts: boolean
     readonly replacesArtifacts: boolean
+    readonly replaceChangelog: boolean
     readonly repo: string
     readonly skipIfReleaseExists: boolean
     readonly tag: string
@@ -156,6 +157,11 @@ export class CoreInputs implements Inputs {
     get replacesArtifacts(): boolean {
         const replaces = core.getInput('replacesArtifacts')
         return replaces == 'true'
+    }
+
+    get replaceChangelog(): boolean {
+        const replace = core.getInput('replaceChangelog')
+        return replace == 'true'
     }
 
     get repo(): string {
