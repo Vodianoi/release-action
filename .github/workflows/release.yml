@@ -21,6 +21,7 @@ jobs:
         removeArtifacts: true
         replacesArtifacts: true
         generateReleaseNotes: true
+        replaceReleaseNotes: true
         # bodyFile: QuickPing/Package/CHANGELOG.md
         commit: ${{ steps.branch-name.outputs.current_branch }}
         tag: "latest"
