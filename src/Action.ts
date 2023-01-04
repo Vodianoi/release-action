@@ -83,7 +83,7 @@ export class Action {
               getResponse.data.tag_name,
             );
             //check releaseNotesResponse is not undefined
-            if(releaseNotesResponse.data !== undefined) {
+            if(releaseNotesResponse !== undefined) {
                 releaseNotes = releaseNotesResponse.data.body;
             }
           } catch (error) {
