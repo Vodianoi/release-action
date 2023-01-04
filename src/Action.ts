@@ -111,7 +111,7 @@ export class Action {
         return await this.releases.update(
             id,
             this.inputs.tag,
-            await this.generateReleaseNotes(),
+            "eazeazeaze fdeftrhdjdfhsrudtgjxdidusdtiodruderhyseqehypsdghqopinbpqhiephsdgipqhqbhpegih",
             this.inputs.commit,
             this.inputs.discussionCategory,
             this.inputs.updatedDraft,
