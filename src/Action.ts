@@ -91,9 +91,10 @@ export class Action {
           }
       
           // Update the release with the generated release notes if specified
-          if (this.inputs.replaceReleaseNotes && releaseNotes) {
-            getResponse.data.body = releaseNotes;
-          }
+        //   if (this.inputs.replaceReleaseNotes && releaseNotes) {
+        //     getResponse.data.body = releaseNotes;
+        //     core.debug(`Updating release notes for release ${getResponse.data.id}`);
+        //   }
             
           return await this.updateRelease(getResponse.data.id);
           
