@@ -17,6 +17,7 @@ const listMock = jest.fn()
 const shouldSkipMock = jest.fn()
 const updateMock = jest.fn()
 const uploadMock = jest.fn()
+const generateReleaseNotesMock = jest.fn()
 
 const artifacts = [
     new Artifact('a/art1'),
@@ -40,6 +41,7 @@ const updateDraft = false
 const updateName = 'updateName'
 const updatePrerelease = false
 const updateOnlyUnreleased = false
+const replaceReleaseNotes = true;
 const url = 'http://api.example.com'
 const makeLatest = 'legacy'
 
@@ -356,6 +358,7 @@ describe("Action", () => {
                 create: createMock,
                 deleteArtifact: deleteMock,
                 getByTag: getMock,
+                generateReleaseNotes: generateReleaseNotesMock,
                 listArtifactsForRelease: listArtifactsMock,
                 listReleases: listMock,
                 update: updateMock,
@@ -401,6 +404,7 @@ describe("Action", () => {
                 owner: "owner",
                 createdPrerelease: createPrerelease,
                 replacesArtifacts: replacesArtifacts,
+                replaceReleaseNotes: replaceReleaseNotes,
                 removeArtifacts: removeArtifacts,
                 repo: "repo",
                 skipIfReleaseExists: false,
