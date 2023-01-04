@@ -1,4 +1,4 @@
-name: "Test"
+name: "Release"
 on: [push, pull_request] 
 
 jobs:
@@ -6,10 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v6
+    - name: Tag Repo
+      uses: richardsimko/update-tag@v1
+      with:
+        tag_name: latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: ./
       with:
-        artifacts: QuickPing/QuickPing.zip
+        artifacts: ./action.yml
         removeArtifacts: true
         replacesArtifacts: true
         generateReleaseNotes: true
