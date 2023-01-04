@@ -99,7 +99,8 @@ export class Action {
 
     private async updateRelease(id: number): Promise<UpdateReleaseResponse> {
         let body = this.inputs.updatedReleaseBody;
-        if(this.inputs.replaceReleaseNotes) {
+        let name = this.inputs.updatedReleaseName;
+        if(this.inputs.replaceReleaseNotes && this.inputs.generateReleaseNotes) {
             const releaseNotesResponse = await this.generateReleaseNotes();
             body = releaseNotesResponse.data.body;
         }
@@ -112,7 +113,7 @@ export class Action {
             this.inputs.discussionCategory,
             this.inputs.updatedDraft,
             this.inputs.makeLatest,
-            this.inputs.updatedReleaseName,
+            name,
             this.inputs.updatedPrerelease
         )
     }
