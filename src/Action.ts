@@ -84,6 +84,7 @@ export class Action {
             );
             //check releaseNotesResponse is not undefined
             if(releaseNotesResponse !== undefined) {
+                console.log("releaseNotesResponse.data.body: " + releaseNotesResponse.data.body);
                 releaseNotes = releaseNotesResponse.data.body;
             }
           } catch (error) {
