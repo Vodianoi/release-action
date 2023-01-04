@@ -72,13 +72,13 @@ export class Action {
             return await this.checkForMissingReleaseError(error);
           }
       
+          core.debug(`Generating release notes`);
+          core.debug(`tag: ${this.inputs.tag}`);
+          core.debug(`previousTag: ${getResponse.data.tag_name}`);
           // Fail if this isn't an unreleased release & updateOnlyUnreleased is enabled.
           this.releaseValidator.validateReleaseUpdate(getResponse.data);
       
           // Generate release notes using the generateReleaseNotes method of the Releases interface
-          core.debug(`Generating release notes`);
-          core.debug(`tag: ${this.inputs.tag}`);
-          core.debug(`previousTag: ${getResponse.data.tag_name}`);
           let releaseNotes: string | undefined;
           try {
             const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
