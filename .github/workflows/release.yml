@@ -15,7 +15,7 @@ jobs:
         tag_name: latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - uses: ./@latest
+    - uses: ./action@latest
       with:
         artifacts: ./action.yml
         removeArtifacts: true
