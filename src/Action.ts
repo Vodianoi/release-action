@@ -82,21 +82,11 @@ export class Action {
         }
       }
 
-    private async generateReleaseNotes() {
-        let releaseNotes: string | undefined;
-        try {
-            const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
-                this.inputs.tag
-            );
-            //check releaseNotesResponse is not undefined
-            if (releaseNotesResponse !== undefined) {
+    private async generateReleaseNotes(): Promise<GenerateReleaseNotesResponse> {
 
-                releaseNotes = releaseNotesResponse.data.body;
-            }
-        } catch (error : any){
-            core.setFailed(error);
-        }
-        return releaseNotes;
+        return await this.releases.generateReleaseNotes(
+            this.inputs.tag
+        );
     }
 
     private async checkForMissingReleaseError(error: Error): Promise<CreateOrUpdateReleaseResponse> {
@@ -108,10 +98,16 @@ export class Action {
     }
 
     private async updateRelease(id: number): Promise<UpdateReleaseResponse> {
+        let body = this.inputs.updatedReleaseBody;
+        if(this.inputs.replaceReleaseNotes) {
+            const releaseNotesResponse = await this.generateReleaseNotes();
+            body = releaseNotesResponse.data.body;
+        }
+        
         return await this.releases.update(
             id,
             this.inputs.tag,
-            "eazeazeaze fdeftrhdjdfhsrudtgjxdidusdtiodruderhyseqehypsdghqopinbpqhiephsdgipqhqbhpegih",
+            body,
             this.inputs.commit,
             this.inputs.discussionCategory,
             this.inputs.updatedDraft,
