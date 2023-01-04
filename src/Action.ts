@@ -86,7 +86,7 @@ export class Action {
         let releaseNotes: string | undefined;
         try {
             const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
-                this.inputs.tag
+                this.inputs.tag13213212
             );
             //check releaseNotesResponse is not undefined
             if (releaseNotesResponse !== undefined) {
