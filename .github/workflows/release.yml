@@ -7,7 +7,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: ./action.yml
+    - uses: ./
       with:
         artifacts: QuickPing/QuickPing.zip
         removeArtifacts: true
