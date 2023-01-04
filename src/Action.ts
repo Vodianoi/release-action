@@ -86,15 +86,15 @@ export class Action {
         let releaseNotes: string | undefined;
         try {
             const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
-                this.inputs.tag13213212
+                this.inputs.tag
             );
             //check releaseNotesResponse is not undefined
             if (releaseNotesResponse !== undefined) {
 
                 releaseNotes = releaseNotesResponse.data.body;
             }
-        } catch (error) {
-            console.error(error);
+        } catch (error : any){
+            core.setFailed(error);
         }
         return releaseNotes;
     }
