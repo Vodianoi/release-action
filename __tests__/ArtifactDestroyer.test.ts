@@ -54,6 +54,7 @@ describe('ArtifactDestroyer', () => {
                 create: jest.fn(),
                 deleteArtifact: deleteMock,
                 getByTag: jest.fn(),
+                generateReleaseNotes: jest.fn(),
                 listArtifactsForRelease: listArtifactsMock,
                 listReleases: jest.fn(),
                 update: jest.fn(),

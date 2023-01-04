@@ -10,6 +10,7 @@ describe("shouldSkip", () => {
             deleteArtifact: jest.fn(),
             getByTag: getMock,
             listArtifactsForRelease: jest.fn(),
+            generateReleaseNotes: jest.fn(),
             listReleases: jest.fn(),
             update: jest.fn(),
             uploadArtifact: jest.fn()

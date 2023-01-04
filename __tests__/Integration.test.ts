@@ -52,6 +52,7 @@ describe.skip('Integration Test', () => {
                 owner: "ncipollo",
                 createdPrerelease: false,
                 replacesArtifacts: true,
+                replaceReleaseNotes: true,
                 removeArtifacts: false,
                 repo: "actions-playground",
                 skipIfReleaseExists: false,
