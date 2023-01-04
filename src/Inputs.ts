@@ -19,7 +19,7 @@ export interface Inputs {
     readonly owner: string
     readonly removeArtifacts: boolean
     readonly replacesArtifacts: boolean
-    readonly replaceChangelog: boolean
+    readonly replaceReleaseNotes: boolean
     readonly repo: string
     readonly skipIfReleaseExists: boolean
     readonly tag: string
@@ -159,8 +159,8 @@ export class CoreInputs implements Inputs {
         return replaces == 'true'
     }
 
-    get replaceChangelog(): boolean {
-        const replace = core.getInput('replaceChangelog')
+    get replaceReleaseNotes(): boolean {
+        const replace = core.getInput('replaceReleaseNotes')
         return replace == 'true'
     }
 

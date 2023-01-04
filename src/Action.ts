@@ -88,7 +88,7 @@ export class Action {
           }
       
           // Update the release with the generated release notes if specified
-          if (this.inputs.replaceChangelog && releaseNotes) {
+          if (this.inputs.replaceReleaseNotes && releaseNotes) {
             getResponse.data.body = releaseNotes;
           }
             
