@@ -5,7 +5,8 @@ import {
     CreateReleaseResponse,
     ReleaseByTagResponse,
     Releases,
-    UpdateReleaseResponse
+    UpdateReleaseResponse,
+    GenerateReleaseNotesResponse
 } from "./Releases";
 import {ArtifactUploader} from "./ArtifactUploader";
 import {GithubError} from "./GithubError";
@@ -64,21 +65,39 @@ export class Action {
 
     private async createOrUpdateRelease(): Promise<CreateOrUpdateReleaseResponse> {
         if (this.inputs.allowUpdates) {
-            let getResponse: ReleaseByTagResponse
-            try {
-                getResponse = await this.releases.getByTag(this.inputs.tag)
-            } catch (error: any) {
-                return await this.checkForMissingReleaseError(error)
-            }
+          let getResponse: ReleaseByTagResponse;
+          try {
+            getResponse = await this.releases.getByTag(this.inputs.tag);
+          } catch (error: any) {
+            return await this.checkForMissingReleaseError(error);
+          }
+      
+          // Fail if this isn't an unreleased release & updateOnlyUnreleased is enabled.
+          this.releaseValidator.validateReleaseUpdate(getResponse.data);
+      
+          // Generate release notes using the generateReleaseNotes method of the Releases interface
+          let releaseNotes: string | undefined;
+          try {
+            const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
+              this.inputs.tag,
+              getResponse.data.tag_name,
+            );
+            releaseNotes = releaseNotesResponse.data.body;
+          } catch (error) {
+            console.error(error);
+          }
+      
+          // Update the release with the generated release notes if specified
+          if (this.inputs.replaceChangelog && releaseNotes) {
+            getResponse.data.body = releaseNotes;
+          }
             
-            // Fail if this isn't an unreleased release & updateOnlyUnreleased is enabled.
-            this.releaseValidator.validateReleaseUpdate(getResponse.data)
-
-            return await this.updateRelease(getResponse.data.id)
+          return await this.updateRelease(getResponse.data.id);
+          
         } else {
-            return await this.createRelease()
+          return await this.createRelease();
         }
-    }
+      }
 
     private async checkForMissingReleaseError(error: Error): Promise<CreateOrUpdateReleaseResponse> {
         if (Action.noPublishedRelease(error)) {

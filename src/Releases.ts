@@ -9,6 +9,7 @@ export type ListReleasesResponse = RestEndpointMethodTypes["repos"]["listRelease
 export type ListReleaseAssetsResponseData = RestEndpointMethodTypes["repos"]["listReleaseAssets"]["response"]["data"]
 export type UpdateReleaseResponse = RestEndpointMethodTypes["repos"]["updateRelease"]["response"]
 export type UploadArtifactResponse = RestEndpointMethodTypes["repos"]["uploadReleaseAsset"]["response"]
+export type GenerateReleaseNotesResponse = RestEndpointMethodTypes['repos']['generateReleaseNotes']['response'];
 export type CreateOrUpdateReleaseResponse = CreateReleaseResponse | UpdateReleaseResponse
 
 export type ReleaseData = {
@@ -58,6 +59,12 @@ export interface Releases {
         name: string,
         releaseId: number,
     ): Promise<UploadArtifactResponse>
+
+    generateReleaseNotes(
+        tagName: string,
+        previousTagName?: string,
+        configurationFilePath?: string,
+    ): Promise<GenerateReleaseNotesResponse>
 }
 
 export class GithubReleases implements Releases {
@@ -179,4 +186,18 @@ export class GithubReleases implements Releases {
             repo: this.inputs.repo
         })
     }
+
+    async generateReleaseNotes(
+        tagName: string,
+        previousTagName?: string,
+        configurationFilePath?: string,
+      ): Promise<GenerateReleaseNotesResponse> {
+        return this.git.rest.repos.generateReleaseNotes({
+          owner: this.inputs.owner,
+          repo: this.inputs.repo,
+          tag_name: tagName,
+          previous_tag_name: previousTagName,
+          configuration_file_path: configurationFilePath,
+        });
+      }
 }
