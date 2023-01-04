@@ -178,6 +178,7 @@ describe('ArtifactUploader', () => {
                 deleteArtifact: deleteMock,
                 getByTag: jest.fn(),
                 listArtifactsForRelease: listArtifactsMock,
+                generateReleaseNotes: jest.fn(),
                 listReleases: jest.fn(),
                 update: jest.fn(),
                 uploadArtifact: uploadMock
