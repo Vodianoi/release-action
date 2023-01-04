@@ -74,34 +74,30 @@ export class Action {
       
           // Fail if this isn't an unreleased release & updateOnlyUnreleased is enabled.
           this.releaseValidator.validateReleaseUpdate(getResponse.data);
-      
-          // Generate release notes using the generateReleaseNotes method of the Releases interface
-          let releaseNotes: string | undefined;
-          try {
-            const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
-              this.inputs.tag,
-            );
-            //check releaseNotesResponse is not undefined
-            if(releaseNotesResponse !== undefined) {
-                
-                releaseNotes = releaseNotesResponse.data.body;
-            }
-          } catch (error) {
-            console.error(error);
-          }
-      
-          // Update the release with the generated release notes if specified
-        //   if (this.inputs.replaceReleaseNotes && releaseNotes) {
-        //     getResponse.data.body = releaseNotes;
-        //     core.debug(`Updating release notes for release ${getResponse.data.id}`);
-        //   }
-            
+
           return await this.updateRelease(getResponse.data.id);
           
         } else {
           return await this.createRelease();
         }
       }
+
+    private async generateReleaseNotes() {
+        let releaseNotes: string | undefined;
+        try {
+            const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
+                this.inputs.tag
+            );
+            //check releaseNotesResponse is not undefined
+            if (releaseNotesResponse !== undefined) {
+
+                releaseNotes = releaseNotesResponse.data.body;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        return releaseNotes;
+    }
 
     private async checkForMissingReleaseError(error: Error): Promise<CreateOrUpdateReleaseResponse> {
         if (Action.noPublishedRelease(error)) {
@@ -115,7 +111,7 @@ export class Action {
         return await this.releases.update(
             id,
             this.inputs.tag,
-            this.inputs.updatedReleaseBody,
+            await this.generateReleaseNotes(),
             this.inputs.commit,
             this.inputs.discussionCategory,
             this.inputs.updatedDraft,
