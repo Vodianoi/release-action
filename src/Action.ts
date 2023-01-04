@@ -87,6 +87,10 @@ export class Action {
                 core.debug(`releaseNotesResponse: ${JSON.stringify(releaseNotesResponse)}`);
                 releaseNotes = releaseNotesResponse.data.body;
             }
+            else
+            {
+                core.debug(`releaseNotesResponse is undefined`);
+            }
           } catch (error) {
             console.error(error);
           }
