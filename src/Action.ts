@@ -72,9 +72,6 @@ export class Action {
             return await this.checkForMissingReleaseError(error);
           }
       
-          core.debug(`Generating release notes`);
-          core.debug(`tag: ${this.inputs.tag}`);
-          core.debug(`previousTag: ${getResponse.data.tag_name}`);
           // Fail if this isn't an unreleased release & updateOnlyUnreleased is enabled.
           this.releaseValidator.validateReleaseUpdate(getResponse.data);
       
@@ -83,19 +80,11 @@ export class Action {
           try {
             const releaseNotesResponse: GenerateReleaseNotesResponse = await this.releases.generateReleaseNotes(
               this.inputs.tag,
-              getResponse.data.tag_name,
             );
             //check releaseNotesResponse is not undefined
             if(releaseNotesResponse !== undefined) {
-                core.debug(`releaseNotesResponse: ${JSON.stringify(releaseNotesResponse)}`);
-                core.warning(`releaseNotesResponse: ${JSON.stringify(releaseNotesResponse)}`);
                 
                 releaseNotes = releaseNotesResponse.data.body;
-            }
-            else
-            {
-                core.debug(`releaseNotesResponse is undefined`);
-                core.warning(`releaseNotesResponse is undefined`);
             }
           } catch (error) {
             console.error(error);
