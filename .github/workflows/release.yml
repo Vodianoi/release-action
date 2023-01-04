@@ -1,0 +1,22 @@
+name: "Test"
+on: [push, pull_request] 
+
+jobs:
+  check_pr:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ../../action.yml
+        with:
+          artifacts: QuickPing/QuickPing.zip
+          removeArtifacts: true
+          replacesArtifacts: true
+          generateReleaseNotes: true
+          # bodyFile: QuickPing/Package/CHANGELOG.md
+          commit: ${{ steps.branch-name.outputs.current_branch }}
+          tag: "latest"
+          allowUpdates: true
+          updateOnlyUnreleased: true
+          name: "Pre-release: ${{ env.GitVersion_SemVer }}"
+          prerelease: true
